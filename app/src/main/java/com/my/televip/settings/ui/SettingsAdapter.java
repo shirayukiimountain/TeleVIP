@@ -17,6 +17,7 @@ import com.my.televip.logging.Logger;
 import com.my.televip.settings.controller.SettingsController;
 import com.my.televip.utils.DialogUtils;
 import com.my.televip.utils.Utils;
+import com.my.televip.virtuals.ActionBar.AlertDialog;
 import com.my.televip.virtuals.Theme;
 import com.my.televip.virtuals.messenger.browser.Browser;
 import com.my.televip.virtuals.ui.Cells.ExpandableTextCheckCell;
@@ -25,6 +26,8 @@ import com.my.televip.virtuals.ui.Cells.ShadowSectionCell;
 import com.my.televip.virtuals.ui.Cells.TextCheckCell;
 import com.my.televip.virtuals.ui.Cells.TextInfoCell;
 import com.my.televip.virtuals.ui.Cells.TextSettingsCell;
+
+import java.util.Locale;
 
 /** Turns each of ConfigManager's items into a row of TeleVip's settings list. */
 public class SettingsAdapter {
@@ -199,6 +202,10 @@ public class SettingsAdapter {
                     row.check.setChecked(checked);
                     item.setEnable(checked);
                     item.run();
+
+                    if (checked && Keys.SecretMediaSave.equals(item.getKey())) {
+                        showSecretMediaSaveDialog(settingsController.getContext());
+                    }
                 } else if (viewType == ConfigItem.TEXT) {
                     switch (item.getKey()) {
                         case Keys.DeveloperChannel:
@@ -244,6 +251,25 @@ public class SettingsAdapter {
         } else {
             audio.start();
             DialogUtils.showQuranAlert(context);
+        }
+    }
+
+    private static void showSecretMediaSaveDialog(Context context) {
+        try {
+            AlertDialog dialog = new AlertDialog(context);
+            dialog.setTitle(Translator.get(Keys.SecretMediaSave));
+
+            String lang = Locale.getDefault().getLanguage();
+            boolean isIndonesian = "in".equalsIgnoreCase(lang) || "id".equalsIgnoreCase(lang);
+            String message = isIndonesian
+                    ? "Saat membuka media rahasia / view-once:\n\n1. Pastikan langsung menyimpannya ke galeri (menu titik tiga > Save to gallery) sebelum menutup foto.\n2. Begitu foto dibuka, status di pengirim otomatis langsung berubah menjadi \"Foto Telah Kadaluarsa\".\n3. Balon foto di chat akan hilang setelah ditutup, namun foto yang sudah disimpan ke galeri tetap aman di HP Anda."
+                    : Translator.get(Keys.SecretMediaSaveInfo);
+
+            dialog.setMessage(message);
+            dialog.setPositiveButton(Translator.get(Keys.Done), null);
+            dialog.show();
+        } catch (Throwable t) {
+            Logger.e(t);
         }
     }
 

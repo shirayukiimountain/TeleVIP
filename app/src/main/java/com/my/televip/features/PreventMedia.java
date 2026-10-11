@@ -20,6 +20,8 @@ public class PreventMedia {
             if (!isEnable) {
                 isEnable = true;
 
+                SecretMediaSave.installDeleteProtection();
+
                 if (ClassLoad.getClass(ClassNames.CHAT_ACTIVITY) != null) {
                     HMethod.hookMethod(ClassLoad.getClass(ClassNames.CHAT_ACTIVITY), AutomationResolver.resolve("ChatActivity", "sendSecretMessageRead", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("sendSecretMessageRead", new Class<?>[]{ClassLoad.getClass(ClassNames.MESSAGE_OBJECT), boolean.class}), new AbstractMethodHook() {
                         @Override
@@ -30,7 +32,12 @@ public class PreventMedia {
                     HMethod.hookMethod(ClassLoad.getClass(ClassNames.CHAT_ACTIVITY), AutomationResolver.resolve("ChatActivity", "sendSecretMediaDelete", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("sendSecretMediaDelete", new Class<?>[]{ClassLoad.getClass(ClassNames.MESSAGE_OBJECT)}), new AbstractMethodHook() {
                         @Override
                         protected void beforeMethod(MethodHookParam param) {
-                            if (ConfigManager.preventMedia.isEnable()) param.setResult(null);
+                            if (ConfigManager.preventMedia.isEnable() || (ConfigManager.secretMediaSave != null && ConfigManager.secretMediaSave.isEnable())) {
+                                param.setResult(new Runnable() {
+                                    @Override
+                                    public void run() {}
+                                });
+                            }
                         }
                     }));
                 }
@@ -40,7 +47,7 @@ public class PreventMedia {
                     HMethod.hookMethod(ClassLoad.getClass(ClassNames.SECRET_MEDIA_VIEWER), AutomationResolver.resolve("SecretMediaViewer", "closePhoto", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("closePhoto", new Class<?>[]{boolean.class, boolean.class}), new AbstractMethodHook() {
                         @Override
                         protected void beforeMethod(MethodHookParam param) {
-                            if (ConfigManager.preventMedia.isEnable()) {
+                            if (ConfigManager.preventMedia.isEnable() || (ConfigManager.secretMediaSave != null && ConfigManager.secretMediaSave.isEnable())) {
                                 // Belt and braces: the read/delete requests are already blocked
                                 // above, so a build where onClose is renamed loses nothing.
                                 try {

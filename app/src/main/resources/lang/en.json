@@ -55,6 +55,7 @@
   "HidePinnedMessages": "Hide Pinned Messages",
   "UiSettings": "UI",
   "SecretMediaSave": "Enable Secret Media Save",
+  "SecretMediaSaveInfo": "When opening secret / view-once media:\n\n1. Make sure to tap the top-right menu (three dots) and choose 'Save to gallery' before closing the photo.\n2. Once opened, the sender will immediately see 'Photo Expired'.\n3. The photo in the chat will disappear after you close the viewer, but the image saved to your gallery remains safe.",
   "BlockAds": "Block Ads",
   "Calendar": "Calendar (Beta)",
   "Hijri": "Hijri",

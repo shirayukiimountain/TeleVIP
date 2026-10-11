@@ -55,6 +55,7 @@
   "HidePinnedMessages": "隐藏置顶消息",
   "UiSettings": "用户界面",
   "SecretMediaSave": "启用秘密媒体保存",
+  "SecretMediaSaveInfo": "打开阅后即焚/秘密媒体时：\n\n1. 请务必在关闭照片前点击右上角菜单（三点）并选择“保存到相册”。\n2. 照片一经打开，发送方将立即看到“照片已过期”。\n3. 关闭查看器后聊天中的照片将消失，但已保存到相册的照片依然安全保留。",
   "BlockAds": "屏蔽广告",
   "Calendar": "日历（测试版）",
   "Hijri": "伊斯兰历",

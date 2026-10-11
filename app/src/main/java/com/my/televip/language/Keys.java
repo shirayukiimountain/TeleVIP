@@ -51,6 +51,7 @@ public class Keys {
     public static final String DisableProfileSwipeBack = "DisableProfileSwipeBack";
     public static final String UiSettings = "UiSettings";
     public static final String SecretMediaSave = "SecretMediaSave";
+    public static final String SecretMediaSaveInfo = "SecretMediaSaveInfo";
     public static final String BlockAds = "BlockAds";
     /** The setting BlockAds replaced; only read to carry it over. */
     public static final String HideProxySponsor = "HideProxySponsor";
